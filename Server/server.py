@@ -28,27 +28,30 @@ class VideoServer:
     def control_video(self, action):
         if not self.selected_video:
             return "No video selected"
-        
-        if action == "play":
-            if not self.playing:
-                self.playing = True
-                self.thread = threading.Thread(target=self.play_video)
-                self.thread.start()
-            return f"Playing {self.selected_video}"
-        elif action == "pause":
-            if self.playing:
-                self.player.pause()
-                self.playing = False
-            return f"Pausing {self.selected_video}"
-        elif action == "stop":
-            if self.playing:
-                self.player.stop()
-                self.playing = False
-            return f"Stopping {self.selected_video}"
         else:
-            return "Invalid action"
+            if action == "play":
+                if not self.playing:
+                    self.playing = True
+                    self.thread = threading.Thread(target=self.play_video)
+                    self.thread.start()
+                if self.playing:
+                    self.player.pause()
+                return f"Playing {self.selected_video}"
+            elif action == "pause":
+                if self.playing:
+                    self.player.pause()
+                return f"Pausing {self.selected_video}"
+            elif action == "stop":
+                if self.playing:
+                    self.player.stop()
+                    self.playing = False
+                return f"Stopping {self.selected_video}"
+            else:
+                return "Invalid action"
 
     def play_video(self):
+        # Set player to fullscreen
+        self.player.set_fullscreen(True)
         self.player.play()
         while self.playing:
             pass  # Loop to keep the thread alive while video is playing
@@ -60,7 +63,7 @@ if __name__ == "__main__":
         {
             VideoServer: "video.server"
         },
-        host="localhost",
+        host="0.0.0.0",
         port=9090,
         ns=False
     )
