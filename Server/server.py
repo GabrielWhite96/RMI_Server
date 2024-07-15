@@ -3,7 +3,7 @@ import threading
 import vlc
 
 @Pyro4.expose
-# @Pyro4.behavior(instance_mode="single")
+@Pyro4.behavior(instance_mode="single")
 class VideoServer:
     def __init__(self):
         self.videos = ["video1.mp4", "video2.mp4", "video3.mp4"]
