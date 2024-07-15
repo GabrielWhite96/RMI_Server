@@ -3,7 +3,7 @@ import threading
 import vlc
 
 @Pyro4.expose
-@Pyro4.behavior(instance_mode="single")
+# @Pyro4.behavior(instance_mode="single")
 class VideoServer:
     def __init__(self):
         self.videos = ["video1.mp4", "video2.mp4", "video3.mp4"]
@@ -50,7 +50,6 @@ class VideoServer:
                 return "Invalid action"
 
     def play_video(self):
-        # Set player to fullscreen
         self.player.set_fullscreen(True)
         self.player.play()
         while self.playing:
